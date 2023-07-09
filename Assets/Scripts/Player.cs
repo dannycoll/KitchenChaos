@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
   {
     gameInput.OnInteractAction += GameInput_OnInteractAction;
   }
+
   private void GameInput_OnInteractAction(object sender, System.EventArgs e)
   {
     if (selectedCounter != null)
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour
   private void Update()
   {
     HandleMovement();
+    HandleInteractions();
   }
 
   public bool IsWalking()
@@ -65,15 +67,13 @@ public class Player : MonoBehaviour
     }
 
     float interactDistance = 2f;
-    if (Physics.Raycast(transform.position, moveDir, out RaycastHit raycastHit, interactDistance, countersLayerMask))
+    if (Physics.Raycast(transform.position, lastMoveDir, out RaycastHit raycastHit, interactDistance, countersLayerMask))
     {
       if (raycastHit.transform.TryGetComponent<ClearCounter>(out ClearCounter clearCounter))
       {
         if (clearCounter != selectedCounter)
         {
-          selectedCounter = clearCounter;
-
-          SetSelectedCounter(selectedCounter);
+          SetSelectedCounter(clearCounter);
         }
       }
       else
