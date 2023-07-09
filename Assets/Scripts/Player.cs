@@ -1,18 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour
 {
+  public static Player Instance { get; private set; }
+  public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
+  public class OnSelectedCounterChangedEventArgs : System.EventArgs
+  {
+    public ClearCounter selectedCounter;
+  }
+
   [SerializeField] private float speed = 5f;
   [SerializeField] private GameInput gameInput;
   [SerializeField] private LayerMask countersLayerMask;
   private Vector3 lastMoveDir;
-  private LayerMask playerLayerMask;
-  private LayerMask floorLayerMask;
-  private LayerMask wallsLayerMask;
+  private ClearCounter selectedCounter;
 
   private bool isWalking;
+
+  private void Awake()
+  {
+    if (Instance != null)
+    {
+      Destroy(gameObject);
+      return;
+    }
+    Instance = this;
+  }
+
+  private void Start()
+  {
+    gameInput.OnInteractAction += GameInput_OnInteractAction;
+  }
+  private void GameInput_OnInteractAction(object sender, System.EventArgs e)
+  {
+    if (selectedCounter != null)
+    {
+      selectedCounter.Interact();
+    }
+  }
+
 
   private void Update()
   {
@@ -40,11 +69,22 @@ public class Player : MonoBehaviour
     {
       if (raycastHit.transform.TryGetComponent<ClearCounter>(out ClearCounter clearCounter))
       {
-        clearCounter.Interact();
+        if (clearCounter != selectedCounter)
+        {
+          selectedCounter = clearCounter;
+
+          SetSelectedCounter(selectedCounter);
+        }
+      }
+      else
+      {
+        SetSelectedCounter(null);
       }
     }
-
-
+    else
+    {
+      SetSelectedCounter(null);
+    }
   }
 
   private void HandleMovement()
@@ -85,5 +125,11 @@ public class Player : MonoBehaviour
 
     isWalking = moveDir != Vector3.zero;
     transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 10);
+  }
+
+  private void SetSelectedCounter(ClearCounter newSelectedCounter)
+  {
+    this.selectedCounter = newSelectedCounter;
+    OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs { selectedCounter = selectedCounter });
   }
 }
