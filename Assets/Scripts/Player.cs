@@ -9,7 +9,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
   public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
   public class OnSelectedCounterChangedEventArgs : System.EventArgs
   {
-    public ClearCounter selectedCounter;
+    public BaseCounter selectedCounter;
   }
 
   [SerializeField] private float speed = 5f;
@@ -19,7 +19,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
   private KitchenObject kitchenObject;
   private Vector3 lastMoveDir;
-  private ClearCounter selectedCounter;
+  private BaseCounter selectedCounter;
 
   private bool isWalking;
 
@@ -72,11 +72,11 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     float interactDistance = 2f;
     if (Physics.Raycast(transform.position, lastMoveDir, out RaycastHit raycastHit, interactDistance, countersLayerMask))
     {
-      if (raycastHit.transform.TryGetComponent<ClearCounter>(out ClearCounter clearCounter))
+      if (raycastHit.transform.TryGetComponent<BaseCounter>(out BaseCounter counter))
       {
-        if (clearCounter != selectedCounter)
+        if (counter != selectedCounter)
         {
-          SetSelectedCounter(clearCounter);
+          SetSelectedCounter(counter);
         }
       }
       else
@@ -130,7 +130,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 10);
   }
 
-  private void SetSelectedCounter(ClearCounter newSelectedCounter)
+  private void SetSelectedCounter(BaseCounter newSelectedCounter)
   {
     this.selectedCounter = newSelectedCounter;
     OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs { selectedCounter = selectedCounter });
