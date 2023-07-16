@@ -12,4 +12,6 @@ public interface IKitchenObjectParent
 
   public Transform GetKitchenObjectFollowTransform();
 
+  public KitchenObject GetKitchenObject();
+
 }
