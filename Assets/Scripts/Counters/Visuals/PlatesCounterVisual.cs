@@ -28,14 +28,12 @@ public class PlatesCounterVisual : MonoBehaviour
     float plateOffsetY = .1f;
     plateVisual.localPosition = new Vector3(0, plateOffsetY * plates.Count, 0);
     plates.Add(plateVisual.gameObject);
-    Debug.Log(plates.Count);
   }
 
   private void PlatesCounter_OnPlateRemoved(object sender, System.EventArgs e)
   {
     GameObject plate = plates[plates.Count - 1];
     plates.Remove(plate);
-    Debug.Log(plates.Count);
     Destroy(plate);
   }
 }
