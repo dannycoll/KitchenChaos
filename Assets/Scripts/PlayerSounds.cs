@@ -21,7 +21,6 @@ public class PlayerSounds : MonoBehaviour
       footstepTimer = footstepDelay;
       if (player.IsWalking())
       {
-        Debug.Log("Playinh");
         SoundManager.Instance.PlayFootStepSound(transform.position);
       }
     }
