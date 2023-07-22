@@ -37,7 +37,7 @@ public class DeliveryManagerUI : MonoBehaviour
       Destroy(child.gameObject);
     }
 
-    foreach (RecipeSO recipeSO in DeliveryManager.Instance.GetRecipeSOList())
+    foreach (RecipeSO recipeSO in DeliveryManager.Instance.GetWaitingRecipes())
     {
       Transform recipeTransform = Instantiate(recipeTemplate, container);
       recipeTransform.GetComponent<DeliveryManagerSingleUI>().SetRecipeSO(recipeSO);
