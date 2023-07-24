@@ -10,7 +10,7 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
   {
     OnAnyObjectPlaced = null;
   }
-  [SerializeField] private Transform counterTopPoint;
+  [SerializeField] protected Transform counterTopPoint;
 
   private KitchenObject kitchenObject;
 
@@ -32,12 +32,13 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
   public void SetKitchenObject(KitchenObject kitchenObject)
   {
     this.kitchenObject = kitchenObject;
-    if (kitchenObject != null)
+
+    // Check if counterTopPoint is not null before invoking the event
+    if (counterTopPoint != null && kitchenObject != null)
     {
       OnAnyObjectPlaced?.Invoke(this, EventArgs.Empty);
     }
   }
-
 
   public void ClearKitchenObject()
   {
@@ -46,7 +47,7 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
 
   public bool HasKitchenObject()
   {
-    return kitchenObject != null;
+    return this.kitchenObject != null;
   }
 
   public KitchenObject GetKitchenObject()
