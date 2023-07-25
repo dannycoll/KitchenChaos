@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 public class CuttingCounter : BaseCounter, IHasProgress
@@ -7,7 +5,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
 
   public static event EventHandler OnAnyCut;
 
-  new public static void ResetStaticData()
+  public new static void ResetStaticData()
   {
     OnAnyCut = null;
   }
@@ -18,7 +16,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
 
   [SerializeField] private CuttingRecipeSO[] cuttingRecipes;
 
-  private int cuttingProgress;
+  private int _cuttingProgress;
   public override void Interact(Player player)
   {
     if (!HasKitchenObject())
@@ -28,12 +26,12 @@ public class CuttingCounter : BaseCounter, IHasProgress
         if (HasRecipeWithInput(player.GetKitchenObject().GetKitchenObjectSO()))
         {
           player.GetKitchenObject().SetKitchenObjectParent(this);
-          cuttingProgress = 0;
+          _cuttingProgress = 0;
           CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOForInput(GetKitchenObject().GetKitchenObjectSO());
 
           OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
           {
-            progressNormalized = (float)cuttingProgress / (float)cuttingRecipeSO.cutsNeeded
+            ProgressNormalized = _cuttingProgress / (float)cuttingRecipeSO.cutsNeeded
           });
         }
       }
@@ -61,17 +59,17 @@ public class CuttingCounter : BaseCounter, IHasProgress
   {
     if (HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO()))
     {
-      cuttingProgress++;
+      _cuttingProgress++;
       OnCut?.Invoke(this, EventArgs.Empty);
       OnAnyCut?.Invoke(this, EventArgs.Empty);
 
       CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOForInput(GetKitchenObject().GetKitchenObjectSO());
       OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
       {
-        progressNormalized = (float)cuttingProgress / (float)cuttingRecipeSO.cutsNeeded
+        ProgressNormalized = _cuttingProgress / (float)cuttingRecipeSO.cutsNeeded
       });
 
-      if (cuttingProgress >= cuttingRecipeSO.cutsNeeded)
+      if (_cuttingProgress >= cuttingRecipeSO.cutsNeeded)
       {
 
         KitchenObjectSO outputKitchenObjectSO = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());

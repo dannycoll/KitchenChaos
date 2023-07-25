@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LoaderCallback : MonoBehaviour
 {
-  private bool isFirstUpdate = true;
+  private bool _isFirstUpdate = true;
 
   private void Update()
   {
-    if (isFirstUpdate)
+    if (_isFirstUpdate)
     {
-      isFirstUpdate = false;
+      _isFirstUpdate = false;
       Loader.LoaderCallback();
     }
   }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,11 +8,11 @@ public class PlatesCounterVisual : MonoBehaviour
   [SerializeField] private Transform counterTopPoint;
   [SerializeField] private Transform platePrefab;
 
-  private List<GameObject> plates;
+  private List<GameObject> _plates;
 
   private void Awake()
   {
-    plates = new List<GameObject>();
+    _plates = new List<GameObject>();
   }
   private void Start()
   {
@@ -26,14 +25,14 @@ public class PlatesCounterVisual : MonoBehaviour
     Transform plateVisual = Instantiate(platePrefab, counterTopPoint);
 
     float plateOffsetY = .1f;
-    plateVisual.localPosition = new Vector3(0, plateOffsetY * plates.Count, 0);
-    plates.Add(plateVisual.gameObject);
+    plateVisual.localPosition = new Vector3(0, plateOffsetY * _plates.Count, 0);
+    _plates.Add(plateVisual.gameObject);
   }
 
   private void PlatesCounter_OnPlateRemoved(object sender, System.EventArgs e)
   {
-    GameObject plate = plates[plates.Count - 1];
-    plates.Remove(plate);
+    GameObject plate = _plates[_plates.Count - 1];
+    _plates.Remove(plate);
     Destroy(plate);
   }
 }

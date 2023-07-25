@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StoveBurnWarningUI : MonoBehaviour
@@ -15,7 +13,7 @@ public class StoveBurnWarningUI : MonoBehaviour
   private void StoveCounter_OnProgressChanged(object sender, IHasProgress.OnProgressChangedEventArgs e)
   {
     float burnShowProgressAmount = .5f;
-    bool showBurnWarning = stoveCounter.IsFried() && e.progressNormalized >= burnShowProgressAmount;
+    bool showBurnWarning = stoveCounter.IsFried() && e.ProgressNormalized >= burnShowProgressAmount;
     if (showBurnWarning)
     {
       Show();

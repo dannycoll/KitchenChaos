@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -7,21 +5,21 @@ public class PlatesCounter : BaseCounter
 {
   public event EventHandler OnPlateSpawned;
   public event EventHandler OnPlateRemoved;
-  [SerializeField] KitchenObjectSO plateKitchenObjectSO;
-  private float spawnPlateTimer;
-  private const float SPAWN_PLATE_TIMER = 4f;
-  private int plateSpawnedAmount = 0;
-  private int PLATE_CAPACITY = 5;
+  [SerializeField] private KitchenObjectSO plateKitchenObjectSO;
+  private float _spawnPlateTimer;
+  private const float SpawnPlateTimer = 4f;
+  private int _plateSpawnedAmount;
+  private const int PlateCapacity = 5;
 
   private void Update()
   {
-    spawnPlateTimer += Time.deltaTime;
-    if (spawnPlateTimer > SPAWN_PLATE_TIMER)
+    _spawnPlateTimer += Time.deltaTime;
+    if (_spawnPlateTimer > SpawnPlateTimer)
     {
-      spawnPlateTimer = 0f;
-      if (KitchenGameManager.Instance.IsGamePlaying() && plateSpawnedAmount < PLATE_CAPACITY)
+      _spawnPlateTimer = 0f;
+      if (KitchenGameManager.Instance.IsGamePlaying() && _plateSpawnedAmount < PlateCapacity)
       {
-        plateSpawnedAmount++;
+        _plateSpawnedAmount++;
         OnPlateSpawned?.Invoke(this, EventArgs.Empty);
       }
     }
@@ -31,9 +29,9 @@ public class PlatesCounter : BaseCounter
   {
     if (!player.HasKitchenObject())
     {
-      if (plateSpawnedAmount > 0)
+      if (_plateSpawnedAmount > 0)
       {
-        plateSpawnedAmount--;
+        _plateSpawnedAmount--;
         KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, player);
         OnPlateRemoved?.Invoke(this, EventArgs.Empty);
       }

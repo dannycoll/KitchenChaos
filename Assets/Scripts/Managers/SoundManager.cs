@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-  private const string PLAYER_PREFS_SFX_VOLUME_KEY = "SoundEffectsVolume";
+  private const string PlayerPrefsSfxVolumeKey = "SoundEffectsVolume";
   public static SoundManager Instance;
   [SerializeField]
   private AudioClipRefsSO audioClipRefsSO;
 
-  private float volume = .1f;
+  private float _volume = .1f;
   private void Awake()
   {
     Instance = this;
-    volume = PlayerPrefs.GetFloat(PLAYER_PREFS_SFX_VOLUME_KEY, volume);
+    _volume = PlayerPrefs.GetFloat(PlayerPrefsSfxVolumeKey, _volume);
   }
   private void Start()
   {
@@ -27,11 +25,11 @@ public class SoundManager : MonoBehaviour
 
   private void TrashCounter_OnAnyObjectTrashed(object sender, System.EventArgs e)
   {
-    PlaySound(audioClipRefsSO.trash, (sender as TrashCounter).transform.position);
+    PlaySound(audioClipRefsSO.trash, ((TrashCounter)sender).transform.position);
   }
   private void BaseCounter_OnAnyObjectPlaced(object sender, System.EventArgs e)
   {
-    PlaySound(audioClipRefsSO.objectDrop, (sender as BaseCounter).transform.position);
+    PlaySound(audioClipRefsSO.objectDrop, ((BaseCounter)sender).transform.position);
   }
 
   private void Player_OnPickedUpKitchenObject(object sender, System.EventArgs e)
@@ -47,11 +45,11 @@ public class SoundManager : MonoBehaviour
   }
   private void DeliveryManager_OnRecipeFailed(object sender, System.EventArgs e)
   {
-    PlaySound(audioClipRefsSO.deliveryFail, Camera.main.transform.position);
+    if (Camera.main != null) PlaySound(audioClipRefsSO.deliveryFail, Camera.main.transform.position);
   }
   private void DeliveryManager_OnRecipeSuccess(object sender, System.EventArgs e)
   {
-    PlaySound(audioClipRefsSO.deliverySuccess, Camera.main.transform.position);
+    if (Camera.main != null) PlaySound(audioClipRefsSO.deliverySuccess, Camera.main.transform.position);
   }
   private void PlaySound(AudioClip audioClip, Vector3 position, float volume = 1f)
   {
@@ -64,32 +62,32 @@ public class SoundManager : MonoBehaviour
 
   public void PlayFootStepSound(Vector3 position, float volumeMultiplier = 1f)
   {
-    PlaySound(audioClipRefsSO.footstep, position, volume * volumeMultiplier);
+    PlaySound(audioClipRefsSO.footstep, position, _volume * volumeMultiplier);
   }
 
   public void PlayWarningSound(Vector3 position, float volumeMultiplier = 1f)
   {
-    PlaySound(audioClipRefsSO.warning, position, volume * volumeMultiplier);
+    PlaySound(audioClipRefsSO.warning, position, _volume * volumeMultiplier);
   }
 
   public void PlayCountdownSound()
   {
-    PlaySound(audioClipRefsSO.warning, Camera.main.transform.position);
+    if (Camera.main != null) PlaySound(audioClipRefsSO.warning, Camera.main.transform.position);
   }
 
   public void ChangeVolume()
   {
-    volume = volume + .1f;
-    if (volume > 1f)
+    _volume = _volume + .1f;
+    if (_volume > 1f)
     {
-      volume = 0;
+      _volume = 0;
     }
 
-    PlayerPrefs.SetFloat(PLAYER_PREFS_SFX_VOLUME_KEY, volume);
+    PlayerPrefs.SetFloat(PlayerPrefsSfxVolumeKey, _volume);
     PlayerPrefs.Save();
   }
   public float GetVolume()
   {
-    return volume;
+    return _volume;
   }
 }

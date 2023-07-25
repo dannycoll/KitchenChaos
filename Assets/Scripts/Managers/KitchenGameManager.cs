@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 public class KitchenGameManager : MonoBehaviour
@@ -17,17 +15,17 @@ public class KitchenGameManager : MonoBehaviour
     GameOver
   }
 
-  private State state;
-  private float countdownToStartTimer = 3f;
-  private float gamePlayingTimer;
-  private float gamePlayingTimerMax = 60f;
-  private bool isGamePaused;
+  private State _state;
+  private float _countdownToStartTimer = 3f;
+  private float _gamePlayingTimer;
+  private const float GamePlayingTimerMax = 60f;
+  private bool _isGamePaused;
 
   private void Awake()
   {
-    state = State.WaitingToStart;
+    _state = State.WaitingToStart;
     Instance = this;
-    isGamePaused = false;
+    _isGamePaused = false;
   }
 
   private void Start()
@@ -38,34 +36,34 @@ public class KitchenGameManager : MonoBehaviour
 
   private void GameInput_OnInteractAction(object sender, EventArgs e)
   {
-    if (state == State.WaitingToStart)
+    if (_state == State.WaitingToStart)
     {
-      state = State.CountdownToStart;
+      _state = State.CountdownToStart;
       OnStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
   }
   private void Update()
   {
-    switch (state)
+    switch (_state)
     {
       case State.WaitingToStart:
 
         break;
       case State.CountdownToStart:
-        countdownToStartTimer -= Time.deltaTime;
-        if (countdownToStartTimer <= 0)
+        _countdownToStartTimer -= Time.deltaTime;
+        if (_countdownToStartTimer <= 0)
         {
-          state = State.GamePlaying;
-          gamePlayingTimer = gamePlayingTimerMax;
+          _state = State.GamePlaying;
+          _gamePlayingTimer = GamePlayingTimerMax;
           OnStateChanged?.Invoke(this, EventArgs.Empty);
         }
         break;
       case State.GamePlaying:
-        gamePlayingTimer -= Time.deltaTime;
-        if (gamePlayingTimer <= 0)
+        _gamePlayingTimer -= Time.deltaTime;
+        if (_gamePlayingTimer <= 0)
         {
-          state = State.GameOver;
+          _state = State.GameOver;
           OnStateChanged?.Invoke(this, EventArgs.Empty);
         }
         break;
@@ -78,41 +76,41 @@ public class KitchenGameManager : MonoBehaviour
   }
   public bool IsGamePlaying()
   {
-    return state == State.GamePlaying;
+    return _state == State.GamePlaying;
   }
 
   public bool IsCountdownToStartActive()
   {
-    return state == State.CountdownToStart;
+    return _state == State.CountdownToStart;
   }
 
   public float GetCountdownToStartTimer()
   {
-    return countdownToStartTimer;
+    return _countdownToStartTimer;
   }
 
   public bool IsGameOver()
   {
-    return state == State.GameOver;
+    return _state == State.GameOver;
   }
 
   public float GetGamePlayingTimerNormalized()
   {
-    return 1 - (gamePlayingTimer / gamePlayingTimerMax);
+    return 1 - (_gamePlayingTimer / GamePlayingTimerMax);
   }
 
   public void TogglePauseGame()
   {
-    if (isGamePaused)
+    if (_isGamePaused)
     {
       Time.timeScale = 1;
-      isGamePaused = false;
+      _isGamePaused = false;
       OnGameUnpaused?.Invoke(this, EventArgs.Empty);
     }
     else
     {
       Time.timeScale = 0;
-      isGamePaused = true;
+      _isGamePaused = true;
       OnGamePaused?.Invoke(this, EventArgs.Empty);
     }
   }

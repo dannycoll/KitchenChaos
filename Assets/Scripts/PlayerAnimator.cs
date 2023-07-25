@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-  private const string IS_WALKING = "IsWalking";
+  private const string IsWalking = "IsWalking";
   private Animator _animator;
   [SerializeField] private Player player;
+  private static readonly int Walking = Animator.StringToHash(IsWalking);
 
   private void Awake()
   {
@@ -16,7 +15,7 @@ public class PlayerAnimator : MonoBehaviour
 
   private void Update()
   {
-    _animator.SetBool(IS_WALKING, player.IsWalking());
+    _animator.SetBool(Walking, player.IsWalking());
   }
 
 

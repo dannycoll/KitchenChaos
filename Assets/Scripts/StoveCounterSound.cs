@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StoveCounterSound : MonoBehaviour
@@ -7,13 +5,13 @@ public class StoveCounterSound : MonoBehaviour
 
   [SerializeField]
   private StoveCounter stoveCounter;
-  private AudioSource audioSource;
-  private float warningSoundTimer;
-  private bool playWarningSound;
+  private AudioSource _audioSource;
+  private float _warningSoundTimer;
+  private bool _playWarningSound;
 
   private void Awake()
   {
-    audioSource = GetComponent<AudioSource>();
+    _audioSource = GetComponent<AudioSource>();
   }
 
   private void Start()
@@ -25,30 +23,30 @@ public class StoveCounterSound : MonoBehaviour
   private void StoveCounter_OnProgressChanged(object sender, IHasProgress.OnProgressChangedEventArgs e)
   {
     float playSoundAmount = .5f;
-    playWarningSound = stoveCounter.IsFried() && e.progressNormalized >= playSoundAmount;
+    _playWarningSound = stoveCounter.IsFried() && e.ProgressNormalized >= playSoundAmount;
   }
 
   private void StoveCounter_OnStateChanged(object sender, StoveCounter.OnStateChangedEventArgs e)
   {
-    if (e.state == StoveCounter.State.Frying || e.state == StoveCounter.State.Fried)
+    if (e.State == StoveCounter.State.Frying || e.State == StoveCounter.State.Fried)
     {
-      audioSource.Play();
+      _audioSource.Play();
     }
     else
     {
-      audioSource.Pause();
+      _audioSource.Pause();
     }
   }
 
   private void Update()
   {
-    if (playWarningSound)
+    if (_playWarningSound)
     {
 
-      warningSoundTimer -= Time.deltaTime;
-      if (warningSoundTimer <= 0)
+      _warningSoundTimer -= Time.deltaTime;
+      if (_warningSoundTimer <= 0)
       {
-        warningSoundTimer = .2f;
+        _warningSoundTimer = .2f;
         SoundManager.Instance.PlayWarningSound(stoveCounter.transform.position);
       }
     }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -12,11 +11,11 @@ public class PlateKitchenObject : KitchenObject
   }
 
   [SerializeField] private List<KitchenObjectSO> validKitchenObjects;
-  private List<KitchenObjectSO> kitchenObjectSOList;
+  private List<KitchenObjectSO> _kitchenObjectSOList;
 
   private void Awake()
   {
-    kitchenObjectSOList = new List<KitchenObjectSO>();
+    _kitchenObjectSOList = new List<KitchenObjectSO>();
   }
   public bool TryAddIngredient(KitchenObjectSO kitchenObjectSO)
   {
@@ -24,11 +23,11 @@ public class PlateKitchenObject : KitchenObject
     {
       return false;
     }
-    if (kitchenObjectSOList.Contains(kitchenObjectSO))
+    if (_kitchenObjectSOList.Contains(kitchenObjectSO))
     {
       return false;
     }
-    kitchenObjectSOList.Add(kitchenObjectSO);
+    _kitchenObjectSOList.Add(kitchenObjectSO);
     OnIngredientAdded?.Invoke(this, new OnIngredientAddedEventArgs
     {
       KitchenObjectSO = kitchenObjectSO
@@ -38,6 +37,6 @@ public class PlateKitchenObject : KitchenObject
 
   public List<KitchenObjectSO> GetKitchenObjectSOs()
   {
-    return kitchenObjectSOList;
+    return _kitchenObjectSOList;
   }
 }

@@ -1,17 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StoveBurnFlashingBarUI : MonoBehaviour
 {
-  private const string IS_FLASHING = "IsFlashing";
+  private const string IsFlashing = "IsFlashing";
   [SerializeField] private StoveCounter stoveCounter;
-  private Animator animator;
+  private Animator _animator;
+  private static readonly int Flashing = Animator.StringToHash(IsFlashing);
 
   private void Awake()
   {
-    animator = GetComponent<Animator>();
-    animator.SetBool(IS_FLASHING, false);
+    _animator = GetComponent<Animator>();
+    _animator.SetBool(Flashing, false);
   }
   private void Start()
   {
@@ -21,8 +20,8 @@ public class StoveBurnFlashingBarUI : MonoBehaviour
   private void StoveCounter_OnProgressChanged(object sender, IHasProgress.OnProgressChangedEventArgs e)
   {
     float burnShowProgressAmount = .5f;
-    bool showBurnWarning = stoveCounter.IsFried() && e.progressNormalized >= burnShowProgressAmount;
+    bool showBurnWarning = stoveCounter.IsFried() && e.ProgressNormalized >= burnShowProgressAmount;
 
-    animator.SetBool(IS_FLASHING, showBurnWarning);
+    _animator.SetBool(Flashing, showBurnWarning);
   }
 }

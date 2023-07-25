@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,5 +5,5 @@ using UnityEngine;
 public class RecipeSO : ScriptableObject
 {
   public List<KitchenObjectSO> kitchenObjectSOList;
-  public string recipeName;
+  // public string recipeName;
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -12,7 +10,7 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
   }
   [SerializeField] protected Transform counterTopPoint;
 
-  private KitchenObject kitchenObject;
+  private KitchenObject _kitchenObject;
 
   public virtual void Interact(Player player)
   {
@@ -31,7 +29,7 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
 
   public void SetKitchenObject(KitchenObject kitchenObject)
   {
-    this.kitchenObject = kitchenObject;
+    this._kitchenObject = kitchenObject;
 
     // Check if counterTopPoint is not null before invoking the event
     if (counterTopPoint != null && kitchenObject != null)
@@ -42,16 +40,16 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
 
   public void ClearKitchenObject()
   {
-    this.kitchenObject = null;
+    this._kitchenObject = null;
   }
 
   public bool HasKitchenObject()
   {
-    return this.kitchenObject != null;
+    return this._kitchenObject != null;
   }
 
   public KitchenObject GetKitchenObject()
   {
-    return this.kitchenObject;
+    return this._kitchenObject;
   }
 }

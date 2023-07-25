@@ -1,35 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KitchenObject : MonoBehaviour
 {
   [SerializeField] private KitchenObjectSO kitchenObjectSO;
 
-  private IKitchenObjectParent kitchenObjectParent;
+  private IKitchenObjectParent _kitchenObjectParent;
 
   public KitchenObjectSO GetKitchenObjectSO() => kitchenObjectSO;
 
   public void SetKitchenObjectParent(IKitchenObjectParent parent)
   {
-    if (this.kitchenObjectParent != null)
+    if (this._kitchenObjectParent != null)
     {
-      this.kitchenObjectParent.ClearKitchenObject();
+      this._kitchenObjectParent.ClearKitchenObject();
     }
-    this.kitchenObjectParent = parent;
-    this.kitchenObjectParent.SetKitchenObject(this);
-    transform.parent = this.kitchenObjectParent.GetKitchenObjectFollowTransform();
-    transform.localPosition = Vector3.zero;
+    this._kitchenObjectParent = parent;
+    this._kitchenObjectParent.SetKitchenObject(this);
+    Transform transform1;
+    (transform1 = transform).parent = this._kitchenObjectParent.GetKitchenObjectFollowTransform();
+    transform1.localPosition = Vector3.zero;
   }
 
   public IKitchenObjectParent GetKitchenObjectParent()
   {
-    return this.kitchenObjectParent;
+    return this._kitchenObjectParent;
   }
 
   public void DestroySelf()
   {
-    kitchenObjectParent.ClearKitchenObject();
+    _kitchenObjectParent.ClearKitchenObject();
     Destroy(gameObject);
   }
 

@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 public class DeliveryResultUI : MonoBehaviour
 {
-  private const string POPUP = "Popup";
+  private const string Popup = "Popup";
   [SerializeField] private Image background;
   [SerializeField] private TextMeshProUGUI resultText;
   [SerializeField] private Image icon;
@@ -13,11 +11,12 @@ public class DeliveryResultUI : MonoBehaviour
   [SerializeField] private Color failColor;
   [SerializeField] private Sprite successIcon;
   [SerializeField] private Sprite failIcon;
-  private Animator animator;
+  private Animator _animator;
+  private static readonly int Popup1 = Animator.StringToHash(Popup);
 
   private void Awake()
   {
-    animator = GetComponent<Animator>();
+    _animator = GetComponent<Animator>();
   }
 
   private void Start()
@@ -34,7 +33,7 @@ public class DeliveryResultUI : MonoBehaviour
     background.color = failColor;
     icon.sprite = failIcon;
     resultText.text = "DELIVERY\nFAILED";
-    animator.SetTrigger(POPUP);
+    _animator.SetTrigger(Popup1);
   }
 
   private void DeliveryManager_OnRecipeSuccess(object sender, System.EventArgs e)
@@ -43,6 +42,6 @@ public class DeliveryResultUI : MonoBehaviour
     background.color = successColor;
     icon.sprite = successIcon;
     resultText.text = "DELIVERY\nSUCCESS";
-    animator.SetTrigger(POPUP);
+    _animator.SetTrigger(Popup1);
   }
 }
