@@ -3,7 +3,14 @@ using System;
 
 public class BaseCounter : MonoBehaviour, IKitchenObjectParent
 {
-  public static event EventHandler OnAnyObjectPlaced;
+  public delegate void AnyObjectPlacedEventHandler(object sender, EventArgs e);
+  public static AnyObjectPlacedEventHandler OnAnyObjectPlaced;
+
+  private void Start()
+  {
+    _isCounterTopPointNotNull = counterTopPoint != null;
+  }
+
   public static void ResetStaticData()
   {
     OnAnyObjectPlaced = null;
@@ -11,16 +18,11 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
   [SerializeField] protected Transform counterTopPoint;
 
   private KitchenObject _kitchenObject;
+  private bool _isCounterTopPointNotNull;
 
-  public virtual void Interact(Player player)
-  {
+  public virtual void Interact(Player player) {}
 
-  }
-
-  public virtual void InteractAlternate(Player player)
-  {
-
-  }
+  public virtual void InteractAlternate(Player player) {}
 
   public Transform GetKitchenObjectFollowTransform()
   {
@@ -32,7 +34,7 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     this._kitchenObject = kitchenObject;
 
     // Check if counterTopPoint is not null before invoking the event
-    if (counterTopPoint != null && kitchenObject != null)
+    if (_isCounterTopPointNotNull && kitchenObject != null)
     {
       OnAnyObjectPlaced?.Invoke(this, EventArgs.Empty);
     }

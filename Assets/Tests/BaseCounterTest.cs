@@ -1,5 +1,7 @@
+using System;
 using NUnit.Framework;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class BaseCounterTest
 {
@@ -58,9 +60,37 @@ public class BaseCounterTest
     Assert.IsTrue(eventRaised);
   }
 
+  [Test]
+  public void ClearKitchenObjct_SetsKitchenObjectToNull()
+  {
+    KitchenObject kitchenObject = CreateKitchenObject();
+    _baseCounter.SetKitchenObject(kitchenObject);
+    _baseCounter.ClearKitchenObject();
+    Assert.IsNull(_baseCounter.GetKitchenObject());
+  }
+
+  [Test]
+  public void ResetStaticData_SetsOnAnyObjectPlacedToNull()
+  {
+    BaseCounter.ResetStaticData();
+
+    // Act
+    BaseCounter.OnAnyObjectPlaced += SomeTestMethod1;
+    BaseCounter.OnAnyObjectPlaced += SomeTestMethod2;
+    
+    BaseCounter.ResetStaticData();
+    
+    Assert.IsNull(BaseCounter.OnAnyObjectPlaced, "All event handlers should have been removed after calling ResetStaticData.");
+
+  }
+
   private KitchenObject CreateKitchenObject()
   {
     GameObject go = new GameObject();
     return go.AddComponent<KitchenObject>();
   }
+  
+  private void SomeTestMethod1(object sender, EventArgs e) { /* Some implementation here */ }
+  private void SomeTestMethod2(object sender, EventArgs e) { /* Some implementation here */ }
+
 }
