@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class KitchenObject : MonoBehaviour
 {
-  [SerializeField] private KitchenObjectSO kitchenObjectSO;
+  [SerializeField] protected KitchenObjectSO kitchenObjectSO;
 
   private IKitchenObjectParent _kitchenObjectParent;
 

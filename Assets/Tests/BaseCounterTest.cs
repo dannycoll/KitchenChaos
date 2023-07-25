@@ -54,8 +54,7 @@ public class BaseCounterTests
     {
         // Arrange
         var kitchenObject = CreateKitchenObject();
-        Debug.Log(_baseCounter.CounterTopPoint);
-        Debug.Log(kitchenObject != null);
+
         // Act
         _baseCounter.SetKitchenObject(kitchenObject);
 
