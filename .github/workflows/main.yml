@@ -1,5 +1,8 @@
 name: Unity CI 
 
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
@@ -10,16 +13,22 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  test:
-    # The type of runner that the job will run on
+  run-tests:
+    name: Run tests
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: Run tests
-      uses: game-ci/unity-test-runner@v2
-      env:
-        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-      with:
-        githubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create artifact dir
+        run: |
+          mkdir -p artifacts
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+    
+      - uses: actions/cache@v1.1.0
+        with:
+          path: Library
+          key: Library
+
+      - name: Run tests
+        uses: webbertakken/unity-test-runner@v1.6
