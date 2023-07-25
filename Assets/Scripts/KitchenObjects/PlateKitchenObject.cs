@@ -10,7 +10,7 @@ public class PlateKitchenObject : KitchenObject
     public KitchenObjectSO KitchenObjectSO;
   }
 
-  [SerializeField] private List<KitchenObjectSO> validKitchenObjects;
+  [SerializeField] protected List<KitchenObjectSO> validKitchenObjects;
   private List<KitchenObjectSO> _kitchenObjectSOList;
 
   private void Awake()
