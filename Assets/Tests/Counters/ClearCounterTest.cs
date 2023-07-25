@@ -40,6 +40,7 @@ public class ClearCounterTest
         
         _clearCounter.Interact(_player);
         Assert.AreEqual(_clearCounter, kitchenObject.GetKitchenObjectParent());
+        Assert.IsTrue(false);
     }
 
     [Test]
@@ -56,6 +57,18 @@ public class ClearCounterTest
         
         Assert.AreEqual(_player, kitchenObject.GetKitchenObjectParent());
         Assert.AreEqual(_clearCounter, kitchenObject2.GetKitchenObjectParent());
+    }
+    
+    [Test]
+    public void Interact_WHEN_hasObjectAndPlayerHasNoObject_THEN_PlayerGetsObject()
+    {
+        var kitchenObject = CreateKitchenObject();
+        _clearCounter.SetKitchenObject(kitchenObject);
+        kitchenObject.SetKitchenObjectParent(_clearCounter);
+        
+        _clearCounter.Interact(_player);
+        
+        Assert.AreEqual(_player, kitchenObject.GetKitchenObjectParent());
     }
 
     private KitchenObject CreateKitchenObject()
