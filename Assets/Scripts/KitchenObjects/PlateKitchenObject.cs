@@ -17,20 +17,20 @@ public class PlateKitchenObject : KitchenObject
   {
     _kitchenObjectSOList = new List<KitchenObjectSO>();
   }
-  public bool TryAddIngredient(KitchenObjectSO kitchenObjectSO)
+  public bool TryAddIngredient(KitchenObjectSO ingredientToAdd)
   {
-    if (!validKitchenObjects.Contains(kitchenObjectSO))
+    if (!validKitchenObjects.Contains(ingredientToAdd))
     {
       return false;
     }
-    if (_kitchenObjectSOList.Contains(kitchenObjectSO))
+    if (_kitchenObjectSOList.Contains(ingredientToAdd))
     {
       return false;
     }
-    _kitchenObjectSOList.Add(kitchenObjectSO);
+    _kitchenObjectSOList.Add(ingredientToAdd);
     OnIngredientAdded?.Invoke(this, new OnIngredientAddedEventArgs
     {
-      KitchenObjectSO = kitchenObjectSO
+      KitchenObjectSO = ingredientToAdd
     });
     return true;
   }
