@@ -14,7 +14,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
 
   public event EventHandler OnCut;
 
-  [SerializeField] private CuttingRecipeSO[] cuttingRecipes;
+  [SerializeField] protected CuttingRecipeSO[] cuttingRecipes;
 
   private int _cuttingProgress;
   public override void Interact(Player player)

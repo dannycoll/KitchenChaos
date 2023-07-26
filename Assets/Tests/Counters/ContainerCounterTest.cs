@@ -11,7 +11,6 @@ public class ContainerCounterTests
     {
         public KitchenObjectSO KitchenObjectSO
         {
-            get => kitchenObjectSO;
             set => kitchenObjectSO = value;
         }
     }
