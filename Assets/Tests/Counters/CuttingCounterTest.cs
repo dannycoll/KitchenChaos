@@ -23,6 +23,13 @@ public class CuttingCounterTests
         _player = new GameObject().AddComponent<Player>();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        Object.Destroy(_cuttingCounter);
+        Object.Destroy(_player);
+    }
+
     [Test]
     public void Interact_WHEN_HasNoObjectAndPlayerHasInvalidObject_DoesNotReceiveObject()
     {
