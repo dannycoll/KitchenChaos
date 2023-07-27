@@ -12,7 +12,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
   }
 
   [SerializeField] private float speed = 5f;
-  [SerializeField] private GameInput gameInput;
+  [SerializeField] protected GameInput gameInput;
   [SerializeField] private LayerMask countersLayerMask;
   [SerializeField] private Transform kitchenObjectHoldPoint;
 
