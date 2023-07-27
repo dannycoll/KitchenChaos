@@ -7,7 +7,8 @@ public class KitchenGameManager : MonoBehaviour
   public event EventHandler OnStateChanged;
   public event EventHandler OnGamePaused;
   public event EventHandler OnGameUnpaused;
-  private enum State
+
+  public enum State
   {
     WaitingToStart,
     CountdownToStart,
@@ -15,15 +16,15 @@ public class KitchenGameManager : MonoBehaviour
     GameOver
   }
 
-  private State _state;
+  protected State GameState;
   private float _countdownToStartTimer = 3f;
-  private float _gamePlayingTimer;
+  protected float GamePlayingTimer;
   private const float GamePlayingTimerMax = 60f;
   private bool _isGamePaused;
 
   private void Awake()
   {
-    _state = State.WaitingToStart;
+    GameState = State.WaitingToStart;
     Instance = this;
     _isGamePaused = false;
   }
@@ -36,34 +37,33 @@ public class KitchenGameManager : MonoBehaviour
 
   private void GameInput_OnInteractAction(object sender, EventArgs e)
   {
-    if (_state == State.WaitingToStart)
+    if (GameState == State.WaitingToStart)
     {
-      _state = State.CountdownToStart;
+      GameState = State.CountdownToStart;
       OnStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
   }
   private void Update()
   {
-    switch (_state)
+    switch (GameState)
     {
       case State.WaitingToStart:
-
         break;
       case State.CountdownToStart:
         _countdownToStartTimer -= Time.deltaTime;
         if (_countdownToStartTimer <= 0)
         {
-          _state = State.GamePlaying;
-          _gamePlayingTimer = GamePlayingTimerMax;
+          GameState = State.GamePlaying;
+          GamePlayingTimer = GamePlayingTimerMax;
           OnStateChanged?.Invoke(this, EventArgs.Empty);
         }
         break;
       case State.GamePlaying:
-        _gamePlayingTimer -= Time.deltaTime;
-        if (_gamePlayingTimer <= 0)
+        GamePlayingTimer -= Time.deltaTime;
+        if (GamePlayingTimer <= 0)
         {
-          _state = State.GameOver;
+          GameState = State.GameOver;
           OnStateChanged?.Invoke(this, EventArgs.Empty);
         }
         break;
@@ -76,12 +76,12 @@ public class KitchenGameManager : MonoBehaviour
   }
   public bool IsGamePlaying()
   {
-    return _state == State.GamePlaying;
+    return GameState == State.GamePlaying;
   }
 
   public bool IsCountdownToStartActive()
   {
-    return _state == State.CountdownToStart;
+    return GameState == State.CountdownToStart;
   }
 
   public float GetCountdownToStartTimer()
@@ -91,12 +91,12 @@ public class KitchenGameManager : MonoBehaviour
 
   public bool IsGameOver()
   {
-    return _state == State.GameOver;
+    return GameState == State.GameOver;
   }
 
   public float GetGamePlayingTimerNormalized()
   {
-    return 1 - (_gamePlayingTimer / GamePlayingTimerMax);
+    return 1 - (GamePlayingTimer / GamePlayingTimerMax);
   }
 
   public void TogglePauseGame()
