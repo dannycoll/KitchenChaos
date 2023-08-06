@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 using Object = UnityEngine.Object;
 
 public class PlatesCounterTest
@@ -18,13 +16,11 @@ public class PlatesCounterTest
     {
         public State TestState
         {
-            get => GameState;
             set => GameState = value;
         }
 
         public float GameTimer
         {
-            get => GamePlayingTimer;
             set => GamePlayingTimer = value;
         }
     }
@@ -33,7 +29,6 @@ public class PlatesCounterTest
     {
         public GameInput GameInput
         {
-            get => gameInput;
             set => gameInput = value;
         }
     }
@@ -47,7 +42,6 @@ public class PlatesCounterTest
     {
         public KitchenObjectSO PlateKitchenObjectSO
         {
-            get => plateKitchenObjectSO;
             set => plateKitchenObjectSO = value;
         }
 
