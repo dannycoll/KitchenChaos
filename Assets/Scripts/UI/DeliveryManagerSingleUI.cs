@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class DeliveryManagerSingleUI : MonoBehaviour
 {
-  [SerializeField] private TextMeshProUGUI recipeNameText;
-  [SerializeField] private Transform iconContainer;
-  [SerializeField] private Transform iconTemplate;
+  [SerializeField] protected TextMeshProUGUI recipeNameText;
+  [SerializeField] protected Transform iconContainer;
+  [SerializeField] protected Transform iconTemplate;
 
   private void Awake()
   {
