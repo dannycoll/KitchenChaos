@@ -20,6 +20,11 @@ public static class Loader
   {
     SceneManager.LoadScene(_targetScene.ToString());
   }
+
+  public static Scene GetTargetScene()
+  {
+    return Loader._targetScene;
+  }
 }
 
 
