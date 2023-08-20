@@ -39,4 +39,9 @@ public class PlateKitchenObject : KitchenObject
   {
     return KitchenObjectSOList;
   }
+
+  public void SetKitchenObjectSOs(List<KitchenObjectSO> kitchenObjectSOList)
+  {
+    KitchenObjectSOList = kitchenObjectSOList;
+  }
 }

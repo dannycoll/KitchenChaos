@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlateIconsUI : MonoBehaviour
 {
-  [SerializeField] private PlateKitchenObject plateKitchenObject;
-  [SerializeField] private Transform iconTemplate;
+  [SerializeField] protected PlateKitchenObject plateKitchenObject;
+  [SerializeField] protected Transform iconTemplate;
 
   private void Awake()
   {
@@ -20,7 +20,7 @@ public class PlateIconsUI : MonoBehaviour
     UpdateVisual();
   }
 
-  private void UpdateVisual()
+  public void UpdateVisual()
   {
     foreach (Transform child in transform)
     {
